@@ -9,12 +9,16 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: pointer;
     border: 1px solid transparent;
     padding: 4px 8px;
     font-size: 14px;
     line-height: 1.5;
     border-radius: 8px;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.storybook-button:hover {
+    border-color: #000;
 }
 .storybook-button--primary {
     color: #fff;

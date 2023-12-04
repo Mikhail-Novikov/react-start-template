@@ -41,6 +41,10 @@
     display: block;
 }
 
+ul li {
+    list-style: none;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -48,6 +52,10 @@
 
 .align-items-center {
     align-items: center;
+}
+
+.jce {
+    justify-content: flex-end;
 }
 
 .margin-left-auto {
@@ -68,4 +76,8 @@
 
 .mr-24 {
     margin-right: 24px;
+}
+
+.txt-right {
+    text-align: right;
 }

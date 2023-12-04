@@ -13,7 +13,7 @@ interface BudgetProps {
  */
 export const Budgets = ({ data, type }: BudgetProps) => (
   <>
-    <caption className="d-block table-title title-border mb-24">{TBudgetType[type]}</caption>
+    <div className="d-block table-title title-border mb-24">{TBudgetType[type]}</div>
     <Table data={data} />
   </>
 );
