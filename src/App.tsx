@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import './App.css';
 import { Header } from './components/header';
 import { Layout } from './components/layout/Layout';
@@ -8,6 +8,7 @@ import { CreateRandomOperation } from './homeworks/ts1/3_write';
 import { createPortal } from 'react-dom';
 import { Modal } from './components/modal';
 import { BottomBtn } from './components/control';
+import { TTableList } from './components/budget/models';
 
 export enum Themes {
   dark = 'dark',
@@ -20,6 +21,7 @@ type ThemeContext = {
 };
 
 type TNewOerations = {
+  id: number;
   name: string;
   amount: string;
   desc: string;
@@ -31,38 +33,30 @@ export const Context = React.createContext<ThemeContext>({
   themesName: 'light',
 });
 
-const data = [
+const data: TTableList[] = [
   { id: 1, name: ['Зарплата', 'Основное', 'Аванс на работе', '2000'] },
   { id: 2, name: ['Подработка', 'Временное', 'Продал колёса', '300'] },
 ];
 
 const App = () => {
   const [operations, setOperations] = useState<any>();
-  const [idOperations, setIdOperations] = useState<number>(1);
 
   /** обработчик получения операции */
-  const getOperation = async (id: number) => {
-    const listOperation = CreateRandomOperation(id);
-    setOperations(await listOperation);
-
-    setIdOperations(idOperations + 1);
-  };
-
-  /** получаем операцию */
-  if (operations === undefined) {
-    getOperation(1);
-  }
-
-  /** формируем новую операцию { id, name:[] } */
-  const newOperation = (el: TNewOerations, id: number) => {
-    const { name, amount, desc, category } = el;
+  const getOperation = async () => {
+    const operation = await CreateRandomOperation(new Date());
+    const { id, name, amount, desc, category } = operation as TNewOerations;
     return { id, name: [name, category, desc, amount] };
   };
 
+  /** инициализация первой операции */
+  if (operations === undefined) {
+    getOperation().then((o) => setOperations(o));
+  }
+
   /** ручное добавление в таблицу оперции */
-  const handleAddList = () => {
-    getOperation(idOperations);
-    return data.push(newOperation(operations, idOperations));
+  const handleAddList = async (): Promise<void> => {
+    setOperations(await getOperation());
+    data.push(operations);
   };
 
   const [themesName, setThemeState] = React.useState<Themes>(Themes.light);

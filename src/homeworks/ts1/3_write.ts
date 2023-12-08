@@ -118,8 +118,10 @@ export const CreateRandomProduct = (createdAt: string): Promise<unknown | Produc
  * */
 // export const createRandomOperation = (createdAt: string) => {};
 
-export const CreateRandomOperation = (createdAt: number): Promise<unknown | Operation> => {
-  return axios({ method: 'GET', baseURL: 'https://fakestoreapi.com/products/', url: createdAt.toString() }).then(
+export const CreateRandomOperation = (createdAt: Date): Promise<unknown | Operation> => {
+  const randomId = Math.floor(Math.random() * 20);
+
+  return axios({ method: 'GET', baseURL: 'https://fakestoreapi.com/products/', url: randomId.toString() }).then(
     ({ data }) => {
       const { id, title, description, price, category } = data as TApiToProduct;
 
@@ -130,7 +132,7 @@ export const CreateRandomOperation = (createdAt: number): Promise<unknown | Oper
         name: title,
         category,
         desc: description,
-        createdAt: new Date().toLocaleDateString('en-US'),
+        createdAt: createdAt.toLocaleDateString('en-US'),
       };
     }
   );
